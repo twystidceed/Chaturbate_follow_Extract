@@ -35,9 +35,9 @@ A text file (followed_cams.txt) will be downloaded automatically, containing the
 ## Example Output
 The downloaded followed_cams.txt will look like this:
 ...
-- username1 - https://chaturbate.com/username1/ 
-- username2 - https://chaturbate.com/username2/
-- username3 - https://chaturbate.com/username3/
+- https://chaturbate.com/username1/ 
+- https://chaturbate.com/username2/
+- https://chaturbate.com/username3/
 
 ...
 
