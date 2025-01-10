@@ -55,8 +55,8 @@ A text file (.txt) will be downloaded automatically, containing the profile URLs
 - If Chaturbate updates its page structure, the script may require modifications.
 
 ## Acknowledgments
-- Original script by [Twystidceed](github.com/twystidceed)
-- Contributions and improvements by [NillaShark](github.com/NillaShark)
+- Original script by [Twystidceed](https://github.com/twystidceed)
+- Contributions and improvements by [NillaShark](https://github.com/NillaShark)
 
 ## Contributing
 - Feel free to contribute by submitting issues or pull requests. Suggestions for improvements are always welcome!
