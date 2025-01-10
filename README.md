@@ -25,7 +25,7 @@ A **Tampermonkey script** designed to help you extract usernames and URLs of onl
 3. Paste the script into the editor:
 4. There are 2 versions..
 - 2.1 will only include a date/time stamp in the file name
-- V2.11 will include page numbers in the filename for those who wish to know which page they have downloaded. This will help for downloading more than 2 or 3 pages of model urls. 
+- V2.1.1 will include page numbers in the filename for those who wish to know which page they have downloaded. This will help for downloading more than 2 or 3 pages of model urls. 
 5. Save the script.
 6. Navigate to the Followed Cams page on Chaturbate and you're ready to go!
 7. The button will only display while you are in one of the followed pages, once you navigate away it will vanish. 
