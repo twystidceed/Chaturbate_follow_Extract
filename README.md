@@ -54,4 +54,4 @@ The downloaded followed_cams.txt will look like this:
 - Feel free to contribute by submitting issues or pull requests. Suggestions for improvements are always welcome!
 
 ## License
-- This project is licensed under the GNU License. See the LICENSE file for details.
+- This project is licensed under the GNU GENERAL PUBLIC LICENSE v3 License. See the LICENSE file for details.
