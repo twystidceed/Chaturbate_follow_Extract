@@ -30,12 +30,6 @@ A **Tampermonkey script** designed to help you extract usernames and URLs of onl
 6. Navigate to the Followed Cams page on Chaturbate and you're ready to go!
 7. The button will only display while you are in one of the followed pages, once you navigate away it will vanish. 
 
-## Usage
-1. Open the Chaturbate Followed Cams page.
-2. Look for the Blue "Extract Displayed Cams" button at the top center of the page.
-3. Click the button to start extracting the data.
-A text file (.txt) will be downloaded automatically, containing the profile URLs tht were displayed on that particular page.
-
 ## Example Output
 - The downloaded .txt will look like this:
 ...
