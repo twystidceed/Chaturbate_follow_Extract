@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Extract Chaturbate Followed Cams with Button
 // @namespace    http://tampermonkey.net/
-// @version      1.8
-// @description  Extract usernames and URLs of cams on 'followed-cam' and 'followed-cam/offline' page from Chaturbate with a button click
+// @version      2.1
+// @description  Extract Model URLs of cams on 'followed-cam' and 'followed-cam/offline' page from Chaturbate with a button click
 // @author       Twystidceed
 // @contributor  NillaShark
 // @match        https://chaturbate.com/followed-cams/*
