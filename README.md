@@ -54,6 +54,10 @@ A text file (.txt) will be downloaded automatically, containing the profile URLs
 - Designed for the Followed Cams page will not work on other parts of the site.
 - If Chaturbate updates its page structure, the script may require modifications.
 
+## Acknowledgments
+- Original script by [Twystidceed](github.com/twystidceed)
+- Contributions and improvements by [NillaShark](github.com/NillaShark)
+
 ## Contributing
 - Feel free to contribute by submitting issues or pull requests. Suggestions for improvements are always welcome!
 
