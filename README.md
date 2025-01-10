@@ -3,7 +3,7 @@
 A **Tampermonkey script** designed to help you extract usernames and URLs of online followed models from Chaturbate. The script adds a button to the page, allowing you to download the data as a text file with just a single click.
 
 ## Features
-- Extract usernames and URLs of all **online followed models**.
+- Extract URLs of all **online/offline followed models**.
 - Automatically generates and downloads a `.txt` file with the data.
 - User-friendly **button interface**, positioned at the **top center** of the page.
 - Works seamlessly with Chaturbate's dynamic content.
@@ -13,7 +13,7 @@ A **Tampermonkey script** designed to help you extract usernames and URLs of onl
 2. **Visit** the [Chaturbate Followed Cams page](https://chaturbate.com/followed-cams/).
 3. **Click the "Extract Followed Cams" Button**:
    - The button is located at the **top center** of the page.
-   - Once clicked, it generates a text file containing the usernames and URLs of all online followed models.
+   - Once clicked, it generates a text file containing the URLs of all online followed models with a date/time stamp included.
 
 4. **Download the Data**:
    - The script automatically downloads the text file named `followed_cams.txt`.
@@ -23,31 +23,35 @@ A **Tampermonkey script** designed to help you extract usernames and URLs of onl
 2. Create a new script:
    - Open Tampermonkey, click **Dashboard**, and then click **Create a New Script**.
 3. Paste the script into the editor:
-4. Save the script.
-5. Navigate to the Followed Cams page on Chaturbate and you're ready to go!
+4. There are 2 versions..
+- 2.1 will only include a date/time stamp in the file name
+- V2.11 will include page numbers in the filename for those who wish to know which page they have downloaded. This will help for downloading more than 2 or 3 pages of model urls. 
+5. Save the script.
+6. Navigate to the Followed Cams page on Chaturbate and you're ready to go!
+7. The button will only display while you are in one of the followed pages, once you navigate away it will vanish. 
 
 ## Usage
 1. Open the Chaturbate Followed Cams page.
-2. Look for the "Extract Displayed Cams" button at the top center of the page.
+2. Look for the Blue "Extract Displayed Cams" button at the top center of the page.
 3. Click the button to start extracting the data.
-A text file (followed_cams.txt) will be downloaded automatically, containing the usernames and profile URLs.
+A text file (.txt) will be downloaded automatically, containing the profile URLs tht were displayed on that particular page.
 
 ## Example Output
-The downloaded followed_cams.txt will look like this:
+- The downloaded .txt will look like this:
 ...
-- https://chaturbate.com/username1/ 
-- https://chaturbate.com/username2/
-- https://chaturbate.com/username3/
-
+- `https://chaturbate.com/username1/`
+- `https://chaturbate.com/username2/`
+- `https://chaturbate.com/username3/`
 ...
+- All urls will be put into alphabetical order as well.
 
 ## Requirements
-- Browser: Any modern web browser (Chrome, Firefox, Edge, etc.).
+- Browser: Any modern web browser that allows userscript extensions (Chrome, Firefox, Edge, etc.).
 - Tampermonkey extension (or similar userscript manager).
 
 ## Limitations
 - The script only works when logged into your Chaturbate account.
-- Designed for the Followed Cams page and may not work on other parts of the site.
+- Designed for the Followed Cams page will not work on other parts of the site.
 - If Chaturbate updates its page structure, the script may require modifications.
 
 ## Contributing
