@@ -1,9 +1,10 @@
 // ==UserScript==
 // @name         Extract Chaturbate Followed Cams with Button
 // @namespace    http://tampermonkey.net/
-// @version      1.3
-// @description  Extract usernames and URLs of followed cams on Chaturbate with a button click
-// @author       You
+// @version      2.0
+// @description  Extract usernames and URLs of cams on 'followed-cam' and 'followed-cam/offline' page from Chaturbate with a button click
+// @author       Twystidceed
+// @contributor  NillaShark
 // @match        https://chaturbate.com/followed-cams/*
 // @grant        none
 // ==/UserScript==
@@ -11,59 +12,24 @@
 (function () {
     'use strict';
 
-    function extractModels() {
-        console.log('Extraction started');
-
-        const onlineModels = [];
-        const modelElements = document.querySelectorAll('li.roomCard'); // Target room card elements
-
-        console.log(`Found ${modelElements.length} room cards`);
-
-        modelElements.forEach((model) => {
-            // Extract username and profile URL
-            const usernameElement = model.querySelector('a[data-room]');
-            const linkElement = model.querySelector('a[href]');
-
-            if (usernameElement && linkElement) {
-                const username = usernameElement.textContent.trim();
-                const url = `https://chaturbate.com${linkElement.getAttribute('href')}`;
-                onlineModels.push(`${url}`); // Removed the '${username} - ' part as it doesnt populate data
-            } else {
-                console.warn('Username or link not found for a model', model);
-            }
-        });
-
-        if (onlineModels.length > 0) {
-            console.log('Extracted models:', onlineModels);
-
-            // Generate and download the text file
-            const blob = new Blob([onlineModels.join('\n')], { type: 'text/plain' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            var dlink_fname = getCurrentTime() + "_chaturbate_model_extract.txt" // Coded filename including timestamp for reference
-            link.download = dlink_fname;                                         // Amended to link the filename for download
-            link.click();
-
-            console.log('File downloaded: followed_cams.txt');
-        } else {
-            console.warn('No models found or extracted.');
-        }
+    // Function to check if the current page matches the desired URL pattern
+    function isFollowedCamsPage() {
+        return window.location.pathname.startsWith('/followed-cams/');
     }
 
     // Function to add the button
     function addButton() {
-        if (document.querySelector('#extractCamsButton')) {
-            console.log('Button already exists.');
+        if (document.querySelector('#extractCamsButton') || !isFollowedCamsPage()) {
             return;
         }
 
         const button = document.createElement('button');
-        button.textContent = 'Extract Followed Cams';
-        button.id = 'extractCamsButton'; // Add an ID for styling
+        button.textContent = 'Extract Displayed Cams';
+        button.id = 'extractCamsButton';
         button.style.position = 'fixed';
-        button.style.top = '10px'; // Position at the top
-        button.style.left = '50%'; // Center horizontally
-        button.style.transform = 'translateX(-50%)'; // Adjust for proper horizontal centering
+        button.style.top = '10px';
+        button.style.left = '50%';
+        button.style.transform = 'translateX(-50%)';
         button.style.padding = '10px 20px';
         button.style.backgroundColor = '#007BFF';
         button.style.color = '#FFF';
@@ -73,27 +39,97 @@
         button.style.cursor = 'pointer';
         button.style.zIndex = '9999';
 
-        // Ensure button works when clicked
         button.addEventListener('click', extractModels);
 
-        // Append button to body
         document.body.appendChild(button);
-
-        console.log('Button added to the page.');
     }
 
-    // Added function to provide timestamping
-    function getCurrentTime() {
-        return new Date(Date.now() - (new Date().getTimezoneOffset() * 1000 * 60)).toJSON().slice(0, 19).replace("T", "_").replaceAll(":", "-");
-    }
-
-    // Use MutationObserver to ensure the DOM is ready
-    const observer = new MutationObserver(() => {
-        if (document.body) {
-            addButton();
-            observer.disconnect(); // Stop observing once the button is added
+    // Function to remove the button if it exists
+    function removeButton() {
+        const button = document.querySelector('#extractCamsButton');
+        if (button) {
+            button.remove();
         }
+    }
+
+    // Function to handle page navigation
+    function handlePageChange() {
+        if (isFollowedCamsPage()) {
+            addButton();
+        } else {
+            removeButton();
+        }
+    }
+
+    // Function to extract model data
+    function extractModels() {
+        console.log('Extraction started');
+
+        const onlineModels = [];
+        const modelElements = document.querySelectorAll('li.roomCard');
+
+        console.log(`Found ${modelElements.length} room cards`);
+
+        modelElements.forEach((model) => {
+            const usernameElement = model.querySelector('a[data-room]');
+            const linkElement = model.querySelector('a[href]');
+
+            if (usernameElement && linkElement) {
+                const url = `https://chaturbate.com${linkElement.getAttribute('href')}`;
+                onlineModels.push(url);
+            } else {
+                console.warn('Username or link not found for a model', model);
+            }
+        });
+
+        if (onlineModels.length > 0) {
+            onlineModels.sort();
+
+            const dlink_fname = `${getCurrentTime()}_cb_model_urls.txt`;
+
+            console.log('Saving models to file: ' + dlink_fname);
+
+            const blob = new Blob([onlineModels.join('\n')], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = dlink_fname;
+            link.click();
+        } else {
+            console.warn('No models found or extracted.');
+        }
+    }
+
+    // Utility function for timestamp
+    function getCurrentTime() {
+        return new Date().toISOString().slice(0, 19).replace('T', '_').replace(/:/g, '-');
+    }
+
+    // Intercept navigation for single-page applications
+    const originalPushState = history.pushState;
+    const originalReplaceState = history.replaceState;
+
+    history.pushState = function (...args) {
+        originalPushState.apply(this, args);
+        window.dispatchEvent(new Event('urlchange'));
+    };
+
+    history.replaceState = function (...args) {
+        originalReplaceState.apply(this, args);
+        window.dispatchEvent(new Event('urlchange'));
+    };
+
+    window.addEventListener('popstate', () => {
+        window.dispatchEvent(new Event('urlchange'));
     });
 
-    observer.observe(document.documentElement, { childList: true, subtree: true });
+    // Detect DOM and URL changes
+    const observer = new MutationObserver(() => {
+        handlePageChange();
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+    window.addEventListener('urlchange', handlePageChange);
+
+    // Initial check
+    handlePageChange();
 })();
