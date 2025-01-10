@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Extract Chaturbate Followed Cams with Button
 // @namespace    http://tampermonkey.net/
-// @version      2.0
+// @version      1.8
 // @description  Extract usernames and URLs of cams on 'followed-cam' and 'followed-cam/offline' page from Chaturbate with a button click
 // @author       Twystidceed
 // @contributor  NillaShark
@@ -62,42 +62,47 @@
     }
 
     // Function to extract model data
-    function extractModels() {
-        console.log('Extraction started');
+  function extractModels() {
+    console.log('Extraction started');
 
-        const onlineModels = [];
-        const modelElements = document.querySelectorAll('li.roomCard');
+    const onlineModels = [];
+    const modelElements = document.querySelectorAll('li.roomCard');
 
-        console.log(`Found ${modelElements.length} room cards`);
+    console.log(`Found ${modelElements.length} room cards`);
 
-        modelElements.forEach((model) => {
-            const usernameElement = model.querySelector('a[data-room]');
-            const linkElement = model.querySelector('a[href]');
+    modelElements.forEach((model) => {
+        const usernameElement = model.querySelector('a[data-room]');
+        const linkElement = model.querySelector('a[href]');
 
-            if (usernameElement && linkElement) {
-                const url = `https://chaturbate.com${linkElement.getAttribute('href')}`;
-                onlineModels.push(url);
-            } else {
-                console.warn('Username or link not found for a model', model);
-            }
-        });
-
-        if (onlineModels.length > 0) {
-            onlineModels.sort();
-
-            const dlink_fname = `${getCurrentTime()}_cb_model_urls.txt`;
-
-            console.log('Saving models to file: ' + dlink_fname);
-
-            const blob = new Blob([onlineModels.join('\n')], { type: 'text/plain' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = dlink_fname;
-            link.click();
+        if (usernameElement && linkElement) {
+            const url = `https://chaturbate.com${linkElement.getAttribute('href')}`;
+            onlineModels.push(url);
         } else {
-            console.warn('No models found or extracted.');
+            console.warn('Username or link not found for a model', model);
         }
+    });
+
+    if (onlineModels.length > 0) {
+        onlineModels.sort();
+
+        // Determine if the page is online or offline
+        const pageType = window.location.pathname.includes('/offline') ? 'offline' : 'online';
+
+        // Construct the filename with timestamp and page type
+        const dlink_fname = `${getCurrentTime()}_cb_model_urls_${pageType}.txt`;
+
+        console.log('Saving models to file: ' + dlink_fname);
+
+        // Generate and download the text file
+        const blob = new Blob([onlineModels.join('\n')], { type: 'text/plain' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = dlink_fname;
+        link.click();
+    } else {
+        console.warn('No models found or extracted.');
     }
+}
 
     // Utility function for timestamp
     function getCurrentTime() {
